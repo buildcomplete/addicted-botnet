@@ -49,8 +49,14 @@ func retr(w http.ResponseWriter, r *http.Request) {
 func push(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		
-		// U is a commasepperated list contaning the urls base64 encoded
+		// check if expected data is there...
+		if len(r.Header["U"]) == 0 {
+			return;
+		}
+
+		// U is a space sepperated list contaning the urls base64 encoded
 		// extract add add to uMap
+
 		data := r.Header["U"][0]
 		for _, f := range strings.Fields(data) {
 			if decoded, errD := base64.StdEncoding.DecodeString(f); errD == nil {
